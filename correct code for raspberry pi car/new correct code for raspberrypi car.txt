@@ -1,0 +1,77 @@
+import RPi.GPIO as gpio
+import time
+import pygame
+
+gpio.setmode(gpio.BOARD)
+
+gpio.setup(3,gpio.OUT)
+gpio.setup(5,gpio.OUT)
+gpio.setup(7,gpio.OUT)
+gpio.setup(11, gpio.OUT)#Setting Pinmode
+gpio.setwarnings(False)
+
+tf = 0.3
+
+def forward():
+    gpio.output(3,True)
+    gpio.output(5,False)
+    gpio.output(7,True)
+    gpio.output(11,False)
+    time.sleep(tf)
+def backward():
+    gpio.output(3,False)
+    gpio.output(5,True)
+    gpio.output(7,False)
+    gpio.output(11,True)
+    time.sleep(tf)
+    
+def left():
+    gpio.output(3,False)
+    gpio.output(5,False)
+    gpio.output(7,True)
+    gpio.output(11,False)
+    time.sleep(tf)
+def right():
+    gpio.output(3,True)
+    gpio.output(5,False)
+    gpio.output(7,False)
+    gpio.output(11,False)
+    time.sleep(tf)
+def stopp():
+    gpio.output(3,False)
+    gpio.output(5,False)
+    gpio.output(7,False)
+    gpio.output(11,False)
+
+    
+
+
+pygame.init()
+window = pygame.display.set_mode((300, 300))
+pygame.display.set_caption("Pygame Demonstration")
+
+mainloop=True
+while mainloop:
+
+    for event in pygame.event.get():
+
+        if event.type == pygame.QUIT:
+
+            mainloop = False
+
+        if event.type == pygame.KEYDOWN:
+
+            print(pygame.key.name(event.key))
+            
+            if(pygame.key.name(event.key)=='w'):
+                forward()
+            if(pygame.key.name(event.key)=='s'):
+                backward()
+            if(pygame.key.name(event.key)=='a'):
+                left()
+            if(pygame.key.name(event.key)=='d'):
+                right()
+        if event.type == pygame.KEYUP:
+            stopp()
+            
+pygame.quit()
